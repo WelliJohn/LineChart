@@ -112,7 +112,7 @@ public class ChartLine extends View {
                                 if (mTotalScrollX >= -getYMaxTextWidth()) {
                                     float lastScorllX = mTotalScrollX;
                                     if (lastScorllX + mScrollPosX < -getYMaxTextWidth()) {
-                                        mTotalScrollX = -getYMaxTextWidth()+1;
+                                        mTotalScrollX = -getYMaxTextWidth() + 1;
                                         mScrollPosX = mTotalScrollX - lastScorllX;
                                         invalidate();
                                     }
@@ -120,7 +120,7 @@ public class ChartLine extends View {
                                 } else {
                                     float lastScorllX = mTotalScrollX;
                                     if (lastScorllX + mScrollPosX > -getYMaxTextWidth()) {
-                                        mTotalScrollX = -getYMaxTextWidth()+1;
+                                        mTotalScrollX = -getYMaxTextWidth() + 1;
                                         mScrollPosX = mTotalScrollX - lastScorllX;
                                         invalidate();
                                     } else {
@@ -403,7 +403,7 @@ public class ChartLine extends View {
         //绘制横线
         for (int y = 0, size = mYdots.length; y < size; y++) {
             String tempText = String.valueOf(mYdots[mYdots.length - 1 - y]);
-            mYNumCanvas.drawLine(getYMaxTextWidth(), getYMaxTextHeight() / 2 + (float) (mYinterval * y), getMeasuredWidth(), getYMaxTextHeight() / 2 + (float) (mYinterval * y), mXlinePaint);
+            mYNumCanvas.drawLine(getYMaxTextWidth(), (float) (mYinterval * y), getMeasuredWidth(), (float) (mYinterval * y), mXlinePaint);
             canvas.drawText(tempText, getYMaxTextWidth() - mYNumPaint.measureText(tempText), getYMaxTextHeight() + (float) (mYinterval * y), mYNumPaint);
 //            Bitmap tempBitamp = Bitmap.createBitmap((int) (getYMaxTextWidth()), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 //            Canvas tempCanvas = new Canvas(tempBitamp);
@@ -414,10 +414,10 @@ public class ChartLine extends View {
 
         //绘制竖线
         for (int x = 0, size = mXdots.length; x <= size; x++) {
-            mYNumCanvas.drawLine(getYMaxTextWidth() + (float) (mXinterval * x), getYMaxTextHeight() / 2, getYMaxTextWidth() + (float) (mXinterval * x), getMeasuredHeight() - getYMaxTextHeight() / 2 - getXMaxTextHeight(), mXlinePaint);
+            mYNumCanvas.drawLine(getYMaxTextWidth() + (float) (mXinterval * x), 0, getYMaxTextWidth() + (float) (mXinterval * x), (float) (mYinterval * mYvisibleNum), mXlinePaint);
             if (x >= 1) {
                 String tempText = mXdots[x - 1];
-                mYNumCanvas.drawText(tempText, getYMaxTextWidth() + (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, getMeasuredHeight() - getYMaxTextHeight() / 2 + getXMaxTextHeight() / 2, mYNumPaint);
+                mYNumCanvas.drawText(tempText, getYMaxTextWidth() + (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, (float) (mYvisibleNum * mYinterval + getYMaxTextHeight()), mYNumPaint);
                 mYDotMaps.put(tempText, getYMaxTextWidth() + (float) (mXinterval * x));
             }
         }
@@ -428,15 +428,15 @@ public class ChartLine extends View {
                 DotVo tempDotVo = mListDisDots.get(i);
                 DotVo nextDotVo = mListDisDots.get(i + 1);
                 float startX = mYDotMaps.get(tempDotVo.getX());
-                float startY = (float) ((mYdots[mYdots.length - 1] - tempDotVo.getY()) * getIntervalPerInch() + getYMaxTextHeight() / 2);
+                float startY = (float) ((mYdots[mYdots.length - 1] - tempDotVo.getY()) * getIntervalPerInch());
                 float stopX = mYDotMaps.get(nextDotVo.getX());
-                float stopY = (float) ((mYdots[mYdots.length - 1] - nextDotVo.getY()) * getIntervalPerInch() + getYMaxTextHeight() / 2);
+                float stopY = (float) ((mYdots[mYdots.length - 1] - nextDotVo.getY()) * getIntervalPerInch());
                 Log.d(TAG, "第: " + i + "个坐标点" + "startX:" + startX + "  startY:" + startY + "  stopX:" + stopX + "  stopY:" + stopY);
                 mYNumCanvas.drawLines(new float[]{startX, startY, stopX, stopY}, mLinePaint);
             }
         }
 
-        canvas.drawBitmap(mBitmap, tempTableLeftPadding, 0, null);
+        canvas.drawBitmap(mBitmap, tempTableLeftPadding, getYMaxTextHeight() / 2, null);
     }
 
     @Override
