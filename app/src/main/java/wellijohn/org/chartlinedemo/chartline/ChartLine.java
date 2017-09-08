@@ -203,13 +203,13 @@ public class ChartLine extends View {
 
     private void initPaint() {
         mXlinePaint = new Paint();
-        mXlinePaint.setStrokeWidth(UiUtils.dip2px(getContext(), 0.5f));
+        mXlinePaint.setStrokeWidth(UiUtils.dip2px(getContext(), 0.1f));
         mXlinePaint.setStyle(Paint.Style.STROKE);
         mXlinePaint.setColor(ContextCompat.getColor(getContext(), R.color.app_red));
         mXlinePaint.setAntiAlias(true);
 
         mYNumPaint = new Paint();
-        mYNumPaint.setStrokeWidth(UiUtils.dip2px(getContext(), 0.01f));
+        mYNumPaint.setStrokeWidth(UiUtils.dip2px(getContext(), 0.03f));
         mYNumPaint.setStyle(Paint.Style.STROKE);
         mYNumPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray));
         mYNumPaint.setAntiAlias(true);
@@ -384,6 +384,14 @@ public class ChartLine extends View {
         return rect.height();
     }
 
+    /**
+     * @param paramPaint 画笔
+     * @return 画笔的宽度
+     */
+    private float getPaintStrokeWidth(Paint paramPaint) {
+        return paramPaint.getStrokeWidth();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         float tempTableLeftPadding = 0;
@@ -403,7 +411,7 @@ public class ChartLine extends View {
         //绘制横线
         for (int y = 0, size = mYdots.length; y < size; y++) {
             String tempText = String.valueOf(mYdots[mYdots.length - 1 - y]);
-            mYNumCanvas.drawLine(0, (float) (mYinterval * y), getMeasuredWidth(), (float) (mYinterval * y), mXlinePaint);
+            mYNumCanvas.drawLine(0, (float) (mYinterval * y), (float) (mXdots.length * mXinterval), (float) (mYinterval * y), mXlinePaint);
             canvas.drawText(tempText, getYMaxTextWidth() - mYNumPaint.measureText(tempText), getYMaxTextHeight() + (float) (mYinterval * y), mYNumPaint);
 //            Bitmap tempBitamp = Bitmap.createBitmap((int) (getYMaxTextWidth()), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 //            Canvas tempCanvas = new Canvas(tempBitamp);
@@ -418,7 +426,7 @@ public class ChartLine extends View {
             if (x >= 1) {
                 String tempText = mXdots[x - 1];
                 mYNumCanvas.drawText(tempText, (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, (float) (mYvisibleNum * mYinterval + getYMaxTextHeight()), mYNumPaint);
-                mYDotMaps.put(tempText, getYMaxTextWidth() + (float) (mXinterval * x));
+                mYDotMaps.put(tempText, (float) (mXinterval * x));
             }
         }
 
