@@ -109,18 +109,18 @@ public class ChartLine extends View {
                                 }
                             } else if (mScrollPosX > 0) {
                                 //代表已经在初始化位置还要向右移动
-                                if (mTotalScrollX >= -getYMaxTextWidth()) {
+                                if (mTotalScrollX >= 0) {
                                     float lastScorllX = mTotalScrollX;
-                                    if (lastScorllX + mScrollPosX < -getYMaxTextWidth()) {
-                                        mTotalScrollX = -getYMaxTextWidth() + 1;
+                                    if (lastScorllX + mScrollPosX < 0) {
+                                        mTotalScrollX = 0f;
                                         mScrollPosX = mTotalScrollX - lastScorllX;
                                         invalidate();
                                     }
 
                                 } else {
                                     float lastScorllX = mTotalScrollX;
-                                    if (lastScorllX + mScrollPosX > -getYMaxTextWidth()) {
-                                        mTotalScrollX = -getYMaxTextWidth() + 1;
+                                    if (lastScorllX + mScrollPosX > 0) {
+                                        mTotalScrollX = 0f;
                                         mScrollPosX = mTotalScrollX - lastScorllX;
                                         invalidate();
                                     } else {
@@ -388,7 +388,7 @@ public class ChartLine extends View {
     protected void onDraw(Canvas canvas) {
         float tempTableLeftPadding = 0;
         if (mBitmap == null || mYNumCanvas == null) {
-            tempTableLeftPadding = 0;
+            tempTableLeftPadding = getYMaxTextWidth();
             Log.d(TAG, "onDraw:mYNumCanvas == null ");
             mBitmap = Bitmap.createBitmap((int) (getMeasuredWidth() - getYMaxTextWidth()), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
             mYNumCanvas = new Canvas(mBitmap);
@@ -403,7 +403,7 @@ public class ChartLine extends View {
         //绘制横线
         for (int y = 0, size = mYdots.length; y < size; y++) {
             String tempText = String.valueOf(mYdots[mYdots.length - 1 - y]);
-            mYNumCanvas.drawLine(getYMaxTextWidth(), (float) (mYinterval * y), getMeasuredWidth(), (float) (mYinterval * y), mXlinePaint);
+            mYNumCanvas.drawLine(0, (float) (mYinterval * y), getMeasuredWidth(), (float) (mYinterval * y), mXlinePaint);
             canvas.drawText(tempText, getYMaxTextWidth() - mYNumPaint.measureText(tempText), getYMaxTextHeight() + (float) (mYinterval * y), mYNumPaint);
 //            Bitmap tempBitamp = Bitmap.createBitmap((int) (getYMaxTextWidth()), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 //            Canvas tempCanvas = new Canvas(tempBitamp);
@@ -414,10 +414,10 @@ public class ChartLine extends View {
 
         //绘制竖线
         for (int x = 0, size = mXdots.length; x <= size; x++) {
-            mYNumCanvas.drawLine(getYMaxTextWidth() + (float) (mXinterval * x), 0, getYMaxTextWidth() + (float) (mXinterval * x), (float) (mYinterval * mYvisibleNum), mXlinePaint);
+            mYNumCanvas.drawLine((float) (mXinterval * x), 0, (float) (mXinterval * x), (float) (mYinterval * mYvisibleNum), mXlinePaint);
             if (x >= 1) {
                 String tempText = mXdots[x - 1];
-                mYNumCanvas.drawText(tempText, getYMaxTextWidth() + (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, (float) (mYvisibleNum * mYinterval + getYMaxTextHeight()), mYNumPaint);
+                mYNumCanvas.drawText(tempText, (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, (float) (mYvisibleNum * mYinterval + getYMaxTextHeight()), mYNumPaint);
                 mYDotMaps.put(tempText, getYMaxTextWidth() + (float) (mXinterval * x));
             }
         }
