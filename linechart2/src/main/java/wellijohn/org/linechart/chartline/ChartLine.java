@@ -1,10 +1,14 @@
 package wellijohn.org.linechart.chartline;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
@@ -79,6 +83,24 @@ public class ChartLine extends View {
     private Map<String, Float> mYDotMaps;
     //判断数据是否有初始化
     private boolean mIsInitDataSuc = false;
+
+    private Path mLinePath = new Path();
+
+    private float mLineLength;
+
+    private float[] mCurrentPosition = new float[2];
+    private PathMeasure mPathMeasure;
+
+    //绘制的距离
+    private float mDistance = -1;
+
+    private float mFirstXPos = 0;
+    private float mFirstYPos = 0;
+
+    private Path mLineDrawPath = new Path();
+
+    //判断是否绘制结束
+    private boolean isDrawOver;
 
 
     private OverScroller mScroller;
@@ -234,6 +256,12 @@ public class ChartLine extends View {
         mXinterval = (mScreenWidth - getLeft() - getYMaxTextWidth()) / mXvisibleNum;
         mYinterval = 80;
         mYDotMaps = new HashMap<>();
+        for (int x = 0, size = mXdots.length; x <= size; x++) {
+            if (x >= 1) {
+                String tempText = mXdots[x - 1];
+                mYDotMaps.put(tempText, (float) (mXinterval * x));
+            }
+        }
         mIsInitDataSuc = true;
     }
 
@@ -412,11 +440,18 @@ public class ChartLine extends View {
             if (x >= 1) {
                 String tempText = mXdots[x - 1];
                 mYNumCanvas.drawText(tempText, (float) (mXinterval * x) - mYNumPaint.measureText(tempText) / 2, (float) (mYvisibleNum * mYinterval + getYMaxTextHeight()), mYNumPaint);
-                mYDotMaps.put(tempText, (float) (mXinterval * x));
+//                mYDotMaps.put(tempText, (float) (mXinterval * x));
             }
         }
 
+        mYNumCanvas.drawPath(mLineDrawPath, mLinePaint);
+//        mYNumCanvas.drawLine(mFirstXPos, mFirstYPos, mCurrentPosition[0], mCurrentPosition[1], mLinePaint);
 
+        canvas.drawBitmap(mBitmap, tempTableLeftPadding, getYMaxTextHeight() / 2, null);
+    }
+
+
+    public void initPath() {
         if (mListDisDots != null) {
             for (int i = 0; i < mListDisDots.size() - 1; i++) {
                 DotVo tempDotVo = mListDisDots.get(i);
@@ -426,11 +461,19 @@ public class ChartLine extends View {
                 float stopX = mYDotMaps.get(nextDotVo.getX()) == null ? 0 : mYDotMaps.get(nextDotVo.getX());
                 float stopY = (float) ((mYdots[mYdots.length - 1] - nextDotVo.getY()) * getIntervalPerInch());
                 Log.d(TAG, "第: " + i + "个坐标点" + "startX:" + startX + "  startY:" + startY + "  stopX:" + stopX + "  stopY:" + stopY);
-                mYNumCanvas.drawLine(startX, startY, stopX, stopY, mLinePaint);
+//                mYNumCanvas.drawLine(startX, startY, stopX, stopY, mLinePaint);
+                if (i == 0) {
+                    mFirstXPos = startX;
+                    mFirstYPos = startY;
+                    mLinePath.moveTo(startX, startY);
+                    mLineDrawPath.moveTo(startX, startY);
+                }
+
+                mLinePath.lineTo(stopX, stopY);
             }
         }
-
-        canvas.drawBitmap(mBitmap, tempTableLeftPadding, getYMaxTextHeight() / 2, null);
+        mPathMeasure = new PathMeasure(mLinePath, false);
+        mLineLength = mPathMeasure.getLength();
     }
 
     /**
@@ -438,13 +481,58 @@ public class ChartLine extends View {
      */
     public void reDraw() throws YCoordinateException {
         initData();
-        requestLayout();
-        invalidate();
+        initPath();
+//        requestLayout();
+        startPathAnim(5000);
+    }
+
+    // 开启路径动画
+    public void startPathAnim(long duration) {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mLineLength);
+        valueAnimator.setDuration(duration);
+        // 减速插值器
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (Float) animation.getAnimatedValue();
+                // 获取当前点坐标封装到mCurrentPosition
+                mPathMeasure.getPosTan(value, mCurrentPosition, null);
+                mLineDrawPath.lineTo(mCurrentPosition[0], mCurrentPosition[1]);
+                postInvalidate();
+            }
+        });
+
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isDrawOver = true;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        valueAnimator.start();
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mGestureDetector.onTouchEvent(event);
+        if (isDrawOver)
+            return mGestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
     /**
