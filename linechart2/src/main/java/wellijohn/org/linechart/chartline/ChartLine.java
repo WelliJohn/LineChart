@@ -1,6 +1,5 @@
 package wellijohn.org.linechart.chartline;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -382,7 +381,6 @@ public class ChartLine extends View {
     }
 
 
-    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         if (!isCanDraw() || !mIsInitDataSuc) return;
@@ -428,7 +426,7 @@ public class ChartLine extends View {
                 float stopX = mYDotMaps.get(nextDotVo.getX()) == null ? 0 : mYDotMaps.get(nextDotVo.getX());
                 float stopY = (float) ((mYdots[mYdots.length - 1] - nextDotVo.getY()) * getIntervalPerInch());
                 Log.d(TAG, "第: " + i + "个坐标点" + "startX:" + startX + "  startY:" + startY + "  stopX:" + stopX + "  stopY:" + stopY);
-                mYNumCanvas.drawLines(new float[]{startX, startY, stopX, stopY}, mLinePaint);
+                mYNumCanvas.drawLine(startX, startY, stopX, stopY, mLinePaint);
             }
         }
 
