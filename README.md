@@ -1,8 +1,6 @@
 # LineChart
 ![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/shitu.gif)
 
-现在只是写个设计思路，后面会对这个完善再进行封装，上传至jcenter.
-
 example:
 1.初始化数据：
 //y轴的点
@@ -49,6 +47,8 @@ try {
 } catch (YCoordinateException e) {
     e.printStackTrace();
 }
+
+3.现在只是写个设计思路，目前由于ui还没出来，可以慢慢定制，等ui好了，会封装成jar上传至jcenter.
 
 
 
