@@ -22,21 +22,21 @@ private List<DotVo> mListDisDots;<br>
 
 //构造显示的点数据<br>
 private void initTestData() {<br>
-　　        mListDisDots = new ArrayList<>();<br>
-        　　DotVo tempDotVo = new DotVo("08/18", 5);<br>
-        　　mListDisDots.add(tempDotVo);<br>
-        　　DotVo tempDotVo1 = new DotVo("08/19", 10);<br>
-        　　mListDisDots.add(tempDotVo1);<br>
-        　　DotVo tempDotVo2 = new DotVo("08/20", 7);<br>
-        　　mListDisDots.add(tempDotVo2);<br>
-        　　DotVo tempDotVo3 = new DotVo("08/21", 15);<br>
-        　　mListDisDots.add(tempDotVo3);<br>
-        　　DotVo tempDotVo4 = new DotVo("08/22", 23);<br>
-        　　mListDisDots.add(tempDotVo4);<br>
-        　　DotVo tempDotVo5 = new DotVo("08/23", 40);<br>
-        　　mListDisDots.add(tempDotVo5);<br>
-        　　DotVo tempDotVo6 = new DotVo("09/02", 0);<br>
-        　　mListDisDots.add(tempDotVo6);<br>
+　　mListDisDots = new ArrayList<>();<br>
+　　DotVo tempDotVo = new DotVo("08/18", 5);<br>
+　　mListDisDots.add(tempDotVo);<br>
+　　DotVo tempDotVo1 = new DotVo("08/19", 10);<br>
+　　mListDisDots.add(tempDotVo1);<br>
+　　DotVo tempDotVo2 = new DotVo("08/20", 7);<br>
+　　mListDisDots.add(tempDotVo2);<br>
+　　DotVo tempDotVo3 = new DotVo("08/21", 15);<br>
+　　mListDisDots.add(tempDotVo3);<br>
+　　DotVo tempDotVo4 = new DotVo("08/22", 23);<br>
+　　mListDisDots.add(tempDotVo4);<br>
+　　DotVo tempDotVo5 = new DotVo("08/23", 40);<br>
+　　mListDisDots.add(tempDotVo5);<br>
+　　DotVo tempDotVo6 = new DotVo("09/02", 0);<br>
+　　mListDisDots.add(tempDotVo6);<br>
 
 }
 
