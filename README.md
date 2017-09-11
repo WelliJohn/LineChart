@@ -10,11 +10,11 @@ private String[] mXdots = new String[]{"08/18", "08/19", "08/20", "08/21", "08/2
             "08/25", "08/26", "08/27", "08/28", "08/29", "09/01", "09/02", "09/23"};
 
 //在布局中写的ChartLine
-<wellijohn.org.linechart.chartline.ChartLine
-        android:id="@+id/chartLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+<wellijohn.org.linechart.chartline.ChartLine<br> 
+        android:id="@+id/chartLine"<br> 
+        android:layout_width="wrap_content"<br> 
+        android:layout_height="wrap_content"<br> 
+        /><br> 
 private ChartLine mChartLine;
 
 
