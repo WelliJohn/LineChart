@@ -2,7 +2,9 @@
 ![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/shitu.gif)
 
 <b>使用example:</b><br>
+
 <b>1.在项目的gradle文件中，增加compile 'wellijohn.org.android3dwheelview:linechart2:1.0.2'</b><br>
+
 <b>2.初始化数据：</b><br>
 //y轴的点<br>
 private double[] mYdots = new double[]{0, 5, 10, 15, 20, 25, 30, 35, 40};<br>
