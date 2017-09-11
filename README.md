@@ -13,7 +13,7 @@ private String[] mXdots = new String[]{"08/18", "08/19", "08/20", "08/21", "08/2
         　　android:id="@+id/chartLine"<br>
         　　android:layout_width="wrap_content"<br>
         　　android:layout_height="wrap_content"<br>
-        /><br>
+       　　 /><br>
 private ChartLine mChartLine;<br>
 
 
@@ -22,7 +22,7 @@ private List<DotVo> mListDisDots;<br>
 
 //构造显示的点数据<br>
 private void initTestData() {<br>
-　　mListDisDots = new ArrayList<>();<br>
+　　        mListDisDots = new ArrayList<>();<br>
         　　DotVo tempDotVo = new DotVo("08/18", 5);<br>
         　　mListDisDots.add(tempDotVo);<br>
         　　DotVo tempDotVo1 = new DotVo("08/19", 10);<br>
@@ -42,9 +42,9 @@ private void initTestData() {<br>
 
 <b>2.设置数据，并显示</b><br>
 try {<br>
-    mChartLine.setYdots(mYdots).setXdots(mXdots).setListDisDots(mListDisDots).reDraw();<br>
+    　　mChartLine.setYdots(mYdots).setXdots(mXdots).setListDisDots(mListDisDots).reDraw();<br>
 } catch (YCoordinateException e) {<br>
-    e.printStackTrace();<br>
+    　　e.printStackTrace();<br>
 }<br>
 
 <b>3.现在只是写个设计思路，目前由于ui还没出来，可以慢慢定制，等ui好了，会封装成jar上传至jcenter.</b><br>
