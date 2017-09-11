@@ -1,6 +1,7 @@
-package wellijohn.org.chartlinedemo.utils;
+package wellijohn.org.linechart.utils;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -31,5 +32,13 @@ public class UiUtils {
     public static int dip2px(Context context, float dip) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dip * scale + 0.5f);
+    }
+
+    /**
+     * @param paramPaint 画笔
+     * @return 画笔的宽度
+     */
+    public static float getPaintStrokeWidth(Paint paramPaint) {
+        return paramPaint.getStrokeWidth();
     }
 }

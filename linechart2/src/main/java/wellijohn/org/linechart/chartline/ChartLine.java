@@ -1,5 +1,6 @@
-package wellijohn.org.chartlinedemo.chartline;
+package wellijohn.org.linechart.chartline;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,14 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.OverScroller;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import wellijohn.org.chartlinedemo.R;
-import wellijohn.org.chartlinedemo.chartline.vo.DotVo;
-import wellijohn.org.chartlinedemo.utils.UiUtils;
+import wellijohn.org.linechart.R;
+import wellijohn.org.linechart.chartline.exception.YCoordinateException;
+import wellijohn.org.linechart.chartline.vo.DotVo;
+import wellijohn.org.linechart.utils.UiUtils;
 
 /**
  * @author: JiangWeiwei
@@ -36,10 +38,9 @@ import wellijohn.org.chartlinedemo.utils.UiUtils;
 public class ChartLine extends View {
     private static final String TAG = "ChartLine";
     //y轴的点
-    private double[] mYdots = new double[]{0, 5, 10, 15, 20, 25, 30, 35, 40};
+    private double[] mYdots;
     //x轴的点
-    private String[] mXdots = new String[]{"08/18", "08/19", "08/20", "08/21", "08/22", "08/23", "08/24",
-            "08/25", "08/26", "08/27", "08/28", "08/29", "09/01", "09/02", "09/23"};
+    private String[] mXdots;
 
     //屏幕的宽高
     private double mScreenWidth;
@@ -77,6 +78,8 @@ public class ChartLine extends View {
 
     //y轴的点对应的x的位置
     private Map<String, Float> mYDotMaps;
+    //判断数据是否有初始化
+    private boolean mIsInitDataSuc = false;
 
 
     private OverScroller mScroller;
@@ -92,7 +95,7 @@ public class ChartLine extends View {
                         mScrollPosX = -distanceX;
                         Log.d(TAG, "onScroll: " + mTotalScrollX + "滑动的距离：" + mScrollPosX);
                         //表示手向左移动
-                        synchronized (mTotalScrollX) {
+                        synchronized (this) {
                             if (mScrollPosX < 0) {
                                 //代表已经在初始化位置还要向左移动
                                 if (mTotalScrollX > 0) {
@@ -109,15 +112,7 @@ public class ChartLine extends View {
                                 }
                             } else if (mScrollPosX > 0) {
                                 //代表已经在初始化位置还要向右移动
-                                if (mTotalScrollX >= 0) {
-                                    float lastScorllX = mTotalScrollX;
-                                    if (lastScorllX + mScrollPosX < 0) {
-                                        mTotalScrollX = 0f;
-                                        mScrollPosX = mTotalScrollX - lastScorllX;
-                                        invalidate();
-                                    }
-
-                                } else {
+                                if (mTotalScrollX < 0) {
                                     float lastScorllX = mTotalScrollX;
                                     if (lastScorllX + mScrollPosX > 0) {
                                         mTotalScrollX = 0f;
@@ -178,28 +173,8 @@ public class ChartLine extends View {
     public ChartLine(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initPaint();
-        initData();
-        initTestData();
     }
 
-    private void initTestData() {
-        mListDisDots = new ArrayList<>();
-        DotVo tempDotVo = new DotVo("08/18", 5);
-        mListDisDots.add(tempDotVo);
-        DotVo tempDotVo1 = new DotVo("08/19", 10);
-        mListDisDots.add(tempDotVo1);
-        DotVo tempDotVo2 = new DotVo("08/20", 7);
-        mListDisDots.add(tempDotVo2);
-        DotVo tempDotVo3 = new DotVo("08/21", 15);
-        mListDisDots.add(tempDotVo3);
-        DotVo tempDotVo4 = new DotVo("08/22", 23);
-        mListDisDots.add(tempDotVo4);
-        DotVo tempDotVo5 = new DotVo("08/23", 40);
-        mListDisDots.add(tempDotVo5);
-        DotVo tempDotVo6 = new DotVo("09/02", 0);
-        mListDisDots.add(tempDotVo6);
-
-    }
 
     private void initPaint() {
         mXlinePaint = new Paint();
@@ -218,7 +193,7 @@ public class ChartLine extends View {
         mLinePaint = new Paint();
         mLinePaint.setStrokeWidth(UiUtils.dip2px(getContext(), 0.5f));
         mLinePaint.setStyle(Paint.Style.STROKE);
-        mLinePaint.setColor(ContextCompat.getColor(getContext(), R.color.invoice_green));
+        mLinePaint.setColor(ContextCompat.getColor(getContext(), R.color.blue));
         mLinePaint.setAntiAlias(true);
 
 
@@ -226,16 +201,32 @@ public class ChartLine extends View {
 
 
     //设置y轴的坐标的显示
-    public void setYdots(double[] paramYdots) {
+    public ChartLine setYdots(double[] paramYdots) {
         this.mYdots = paramYdots;
+        return this;
     }
 
     //设置x点的坐标的显示
-    public void setXdots(String[] paramXdots) {
+    public ChartLine setXdots(String[] paramXdots) {
         this.mXdots = paramXdots;
+        return this;
     }
 
-    private void initData() {
+    //设置显示的坐标点会自动连线起来
+    public ChartLine setListDisDots(List<DotVo> paramListDisDots) {
+        this.mListDisDots = paramListDisDots;
+        return this;
+    }
+
+    private void initData() throws YCoordinateException {
+        if (!isCanDraw()) return;
+        for (DotVo temp : mListDisDots) {
+            if (!Arrays.asList(mXdots).contains(temp.getX())) {
+                Log.e(TAG, "please check if you y dot exists in mYdots,you must set Y dot in Y coordinates");
+                throw new YCoordinateException("please check if you y dot exists in mYdots,you must set Y dot in Y coordinates");
+            }
+        }
+
         mScroller = new OverScroller(getContext(), new FastOutLinearInInterpolator());
         mScreenHeight = UiUtils.getScreenHeight(getContext());
         mScreenWidth = UiUtils.getScreenWidth(getContext());
@@ -244,10 +235,16 @@ public class ChartLine extends View {
         mXinterval = (mScreenWidth - getLeft() - getYMaxTextWidth()) / mXvisibleNum;
         mYinterval = 80;
         mYDotMaps = new HashMap<>();
+        mIsInitDataSuc = true;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (!isCanDraw() || !mIsInitDataSuc) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+
         int widthParentMeasureMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthParentMeasureSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightParentMeasureMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -384,24 +381,15 @@ public class ChartLine extends View {
         return rect.height();
     }
 
-    /**
-     * @param paramPaint 画笔
-     * @return 画笔的宽度
-     */
-    private float getPaintStrokeWidth(Paint paramPaint) {
-        return paramPaint.getStrokeWidth();
-    }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        float tempTableLeftPadding = 0;
+        if (!isCanDraw() || !mIsInitDataSuc) return;
+        float tempTableLeftPadding = getYMaxTextWidth();
         if (mBitmap == null || mYNumCanvas == null) {
-            tempTableLeftPadding = getYMaxTextWidth();
-            Log.d(TAG, "onDraw:mYNumCanvas == null ");
             mBitmap = Bitmap.createBitmap((int) (getMeasuredWidth() - getYMaxTextWidth()), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
             mYNumCanvas = new Canvas(mBitmap);
-        } else {
-            tempTableLeftPadding = getYMaxTextWidth();
         }
 
         mYNumCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
@@ -435,9 +423,9 @@ public class ChartLine extends View {
             for (int i = 0; i < mListDisDots.size() - 1; i++) {
                 DotVo tempDotVo = mListDisDots.get(i);
                 DotVo nextDotVo = mListDisDots.get(i + 1);
-                float startX = mYDotMaps.get(tempDotVo.getX());
+                float startX = mYDotMaps.get(tempDotVo.getX()) == null ? 0 : mYDotMaps.get(tempDotVo.getX());
                 float startY = (float) ((mYdots[mYdots.length - 1] - tempDotVo.getY()) * getIntervalPerInch());
-                float stopX = mYDotMaps.get(nextDotVo.getX());
+                float stopX = mYDotMaps.get(nextDotVo.getX()) == null ? 0 : mYDotMaps.get(nextDotVo.getX());
                 float stopY = (float) ((mYdots[mYdots.length - 1] - nextDotVo.getY()) * getIntervalPerInch());
                 Log.d(TAG, "第: " + i + "个坐标点" + "startX:" + startX + "  startY:" + startY + "  stopX:" + stopX + "  stopY:" + stopY);
                 mYNumCanvas.drawLines(new float[]{startX, startY, stopX, stopY}, mLinePaint);
@@ -447,8 +435,24 @@ public class ChartLine extends View {
         canvas.drawBitmap(mBitmap, tempTableLeftPadding, getYMaxTextHeight() / 2, null);
     }
 
+    /**
+     * 给外部进行调用的重新绘制的方法。
+     */
+    public void reDraw() throws YCoordinateException {
+        initData();
+        requestLayout();
+        invalidate();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return mGestureDetector.onTouchEvent(event);
+    }
+
+    /**
+     * @return 是否需要绘制图表
+     */
+    private boolean isCanDraw() {
+        return !(mYdots == null || mYdots.length == 0 || mXdots == null || mXdots.length == 0 || mListDisDots == null);
     }
 }
