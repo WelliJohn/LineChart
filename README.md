@@ -2,7 +2,8 @@
 ![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/shitu.gif)
 
 <b>使用example:</b><br>
-1.初始化数据：<br>
+<b>1.在项目的gradle文件中，增加compile 'wellijohn.org.android3dwheelview:linechart2:1.0.2'</b><br>
+<b>2.初始化数据：</b><br>
 //y轴的点<br>
 private double[] mYdots = new double[]{0, 5, 10, 15, 20, 25, 30, 35, 40};<br>
 //x轴的点<br>
@@ -40,14 +41,14 @@ private void initTestData() {<br>
 
 }
 
-<b>2.设置数据，并显示</b><br>
+<b>3.设置数据，并显示</b><br>
 try {<br>
     　　mChartLine.setYdots(mYdots).setXdots(mXdots).setListDisDots(mListDisDots).reDraw();<br>
 } catch (YCoordinateException e) {<br>
     　　e.printStackTrace();<br>
 }<br>
 
-<b>3.现在只是写个设计思路，目前由于ui还没出来，可以慢慢定制，等ui好了，会封装成jar上传至jcenter.</b><br>
+<b>4.现在只是写个设计思路，目前由于ui还没出来，可以慢慢定制，等ui好了，会封装成jar上传至jcenter.</b><br>
 
 
 
