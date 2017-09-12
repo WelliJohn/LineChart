@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private double[] mYdots = new double[]{0, 5, 10, 15, 20, 25, 30, 35, 40};
     //x轴的点
     private String[] mXdots = new String[]{"08/18", "08/19", "08/20", "08/21", "08/22", "08/23", "08/24",
-//            "08/25", "08/26", "08/27", "08/28", "08/29", "09/01", "09/02", "09/23"
+            "08/25", "08/26", "08/27", "08/28", "08/29", "09/01", "09/02", "09/23"
     };
     private ChartLine mChartLine;
 
@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
         mListDisDots.add(tempDotVo1);
         DotVo tempDotVo2 = new DotVo("08/20", 7);
         mListDisDots.add(tempDotVo2);
-        DotVo tempDotVo3 = new DotVo("08/21", 7);
+        DotVo tempDotVo3 = new DotVo("08/21", 20);
         mListDisDots.add(tempDotVo3);
-        DotVo tempDotVo4 = new DotVo("08/22", 15);
+        DotVo tempDotVo4 = new DotVo("08/22", 40);
         mListDisDots.add(tempDotVo4);
-        DotVo tempDotVo5 = new DotVo("08/23", 30);
+        DotVo tempDotVo5 = new DotVo("08/23", 20);
         mListDisDots.add(tempDotVo5);
-        DotVo tempDotVo6 = new DotVo("08/24", 8);
+        DotVo tempDotVo6 = new DotVo("09/02", 0);
         mListDisDots.add(tempDotVo6);
 
     }
