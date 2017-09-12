@@ -1,1 +1,1 @@
-include ':app', ':linechart2'
+include ':app', ':linechart'

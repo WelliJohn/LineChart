@@ -1,4 +1,4 @@
-package wellijohn.org.linechart.utils;
+package wellijohn.org.simplelinechart.utils;
 
 import android.content.Context;
 import android.graphics.Paint;

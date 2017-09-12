@@ -1,4 +1,4 @@
-package wellijohn.org.linechart.chartline;
+package wellijohn.org.simplelinechart.chartline;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -27,10 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import wellijohn.org.linechart.R;
-import wellijohn.org.linechart.chartline.exception.YCoordinateException;
-import wellijohn.org.linechart.chartline.vo.DotVo;
-import wellijohn.org.linechart.utils.UiUtils;
+import wellijohn.org.simplelinechart.R;
+import wellijohn.org.simplelinechart.chartline.exception.YCoordinateException;
+import wellijohn.org.simplelinechart.chartline.vo.DotVo;
+import wellijohn.org.simplelinechart.utils.UiUtils;
 
 /**
  * @author: JiangWeiwei
@@ -84,7 +84,7 @@ public class ChartLine extends View {
     //判断数据是否有初始化
     private boolean mIsInitDataSuc = false;
 
-    private Path mLinePath = new Path();
+    private Path mLinePath;
 
     private float mLineLength;
 
@@ -97,7 +97,7 @@ public class ChartLine extends View {
     private float mFirstXPos = 0;
     private float mFirstYPos = 0;
 
-    private Path mLineDrawPath = new Path();
+    private final Path mLineDrawPath = new Path();
 
     //判断是否绘制结束
     private boolean isDrawOver;
@@ -452,6 +452,7 @@ public class ChartLine extends View {
 
 
     public void initPath() {
+        mLinePath = new Path();
         if (mListDisDots != null) {
             for (int i = 0; i < mListDisDots.size() - 1; i++) {
                 DotVo tempDotVo = mListDisDots.get(i);
@@ -483,14 +484,13 @@ public class ChartLine extends View {
         initData();
         initPath();
 //        requestLayout();
-        startPathAnim(5000);
+        startPathAnim(3000);
     }
 
     // 开启路径动画
-    public void startPathAnim(long duration) {
+    private void startPathAnim(long duration) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mLineLength);
         valueAnimator.setDuration(duration);
-        // 减速插值器
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
             @Override
@@ -499,7 +499,7 @@ public class ChartLine extends View {
                 // 获取当前点坐标封装到mCurrentPosition
                 mPathMeasure.getPosTan(value, mCurrentPosition, null);
                 mLineDrawPath.lineTo(mCurrentPosition[0], mCurrentPosition[1]);
-                postInvalidate();
+                invalidate();
             }
         });
 

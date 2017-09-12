@@ -1,4 +1,4 @@
-package wellijohn.org.linechart.chartline.vo;
+package wellijohn.org.simplelinechart.chartline.vo;
 
 /**
  * @author: JiangWeiwei

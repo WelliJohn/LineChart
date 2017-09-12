@@ -6,12 +6,12 @@ tasks.withType(Javadoc) {
 }
 
 
-version = "1.0.5"
+version = "0.0.1"
 
 
 def siteUrl = 'https://github.com/WelliJohn/LineChart' // 项目的主页
 def gitUrl = 'https://github.com/WelliJohn/LineChart.git' // Git仓库的url
-group = "wellijohn.org.linechart" // 一般填你唯一的包名
+group = "wellijohn.org.simplelinechart" // 一般填你唯一的包名
 install {
     repositories.mavenInstaller {
         pom {
@@ -71,8 +71,8 @@ bintray {
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
-        repo = "LineChart"
-        name = "LineChart"    //发布到JCenter上的项目名字
+        repo = "simplelinechart"
+        name = "SimpleLineChart"    //发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

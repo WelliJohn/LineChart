@@ -1,4 +1,4 @@
-package wellijohn.org.linechart.chartline.exception;
+package wellijohn.org.simplelinechart.chartline.exception;
 
 /**
  * @author: JiangWeiwei
