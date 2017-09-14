@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChartLineDemo</string>
+    <string name="click_percent_demo">百分比圆形图表演示</string>
 </resources>

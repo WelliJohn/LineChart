@@ -8,3 +8,5 @@
 /captures
 .externalNativeBuild
 /.idea/
+/linechart/jcenter.gradle
+/linechart/jfrog.gradle

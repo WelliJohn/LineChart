@@ -22,4 +22,10 @@
         app:layout_constraintTop_toTopOf="parent" />
     <!--</HorizontalScrollView>-->
 
+    <Button
+        android:id="@+id/button_percent_chart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chartLine"
+        android:text="@string/click_percent_demo" />
 </RelativeLayout>

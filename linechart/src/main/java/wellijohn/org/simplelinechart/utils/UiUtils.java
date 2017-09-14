@@ -2,6 +2,7 @@ package wellijohn.org.simplelinechart.utils;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -40,5 +41,25 @@ public class UiUtils {
      */
     public static float getPaintStrokeWidth(Paint paramPaint) {
         return paramPaint.getStrokeWidth();
+    }
+
+    /**
+     * @param paramText  显示的文本
+     * @param paramPaint 画笔
+     * @return 文本的宽度
+     */
+    public static float getTextWidth(String paramText, Paint paramPaint) {
+        return paramPaint.measureText(paramText);
+    }
+
+    /**
+     * @param paramText  显示的文本
+     * @param paramPaint 画笔
+     * @return 文本的高度
+     */
+    public static float getTextHeight(String paramText, Paint paramPaint) {
+        Rect rect = new Rect();
+        paramPaint.getTextBounds(paramText, 0, 1, rect);
+        return rect.height();
     }
 }

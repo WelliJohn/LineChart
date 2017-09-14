@@ -1,8 +1,11 @@
 package wellijohn.org.chartlinedemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     //显示的坐标点
     private List<DotVo> mListDisDots;
+    private Button mButtonPercentChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,19 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "onCreate: ");
             e.printStackTrace();
         }
+        mButtonPercentChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PercentActivity.class));
+            }
+        });
+
+
     }
 
     private void initView() {
         mChartLine = (ChartLine) findViewById(R.id.chartLine);
+        mButtonPercentChart = (Button) findViewById(R.id.button_percent_chart);
     }
 
     private void initTestData() {
