@@ -22,7 +22,7 @@ import static android.content.ContentValues.TAG;
 /**
  * @author: JiangWeiwei
  * @time: 2017/9/14-14:25
- * @email: jiangweiwei@qccr.com
+ * @email: wellijohn1991@gmail.com
  * @desc:
  */
 public class CirclePercentChart extends View {

@@ -5,7 +5,7 @@ import android.support.annotation.ColorRes;
 /**
  * @author: JiangWeiwei
  * @time: 2017/9/14-14:33
- * @email: jiangweiwei@qccr.com
+ * @email: wellijohn1991@gmail.com
  * @desc:
  */
 public class ArcVo {
