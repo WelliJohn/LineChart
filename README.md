@@ -66,20 +66,20 @@ try {<br>
         　　  android:layout_centerInParent="true" /><br>
 private CirclePercentChart mCirclePercentChart;<br>
 
-构造数据：
-  private void initTestData() {
-        　　mListDisArcs = new ArrayList<>();
-      　　  ArcVo tempDotVo = new ArcVo(Color.RED, .42f);
-       　　 mListDisArcs.add(tempDotVo);
-      　　  ArcVo tempDotVo1 = new ArcVo(Color.YELLOW, .38f);
-      　　  mListDisArcs.add(tempDotVo1);
-       　　 ArcVo tempDotVo2 = new ArcVo(Color.GREEN, .09f);
-       　　 mListDisArcs.add(tempDotVo2);
-      　　  ArcVo tempDotVo3 = new ArcVo(Color.BLACK, .05f);
-     　　   mListDisArcs.add(tempDotVo3);
-   　　     ArcVo tempDotVo4 = new ArcVo(Color.BLUE, .06f);
-       　　 mListDisArcs.add(tempDotVo4);
-    }
+构造数据：<br>
+  private void initTestData() {<br>
+        　　mListDisArcs = new ArrayList<>();<br>
+      　　  ArcVo tempDotVo = new ArcVo(Color.RED, .42f);<br>
+       　　 mListDisArcs.add(tempDotVo);<br>
+      　　  ArcVo tempDotVo1 = new ArcVo(Color.YELLOW, .38f);<br>
+      　　  mListDisArcs.add(tempDotVo1);<br>
+       　　 ArcVo tempDotVo2 = new ArcVo(Color.GREEN, .09f);<br>
+       　　 mListDisArcs.add(tempDotVo2);<br>
+      　　  ArcVo tempDotVo3 = new ArcVo(Color.BLACK, .05f);<br>
+     　　   mListDisArcs.add(tempDotVo3);<br>
+   　　     ArcVo tempDotVo4 = new ArcVo(Color.BLUE, .06f);<br>
+       　　 mListDisArcs.add(tempDotVo4);<br>
+    }<br>
 
 <b>2.设置数据，并显示</b><br>
  try {<br>
