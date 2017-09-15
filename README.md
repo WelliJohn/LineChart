@@ -1,5 +1,5 @@
 # LineChart
-<b>在项目的gradle文件中，增加compile 'wellijohn.org.simplelinechart:linechart:0.0.1'</b><br>
+<b>在项目的gradle文件中，增加compile 'wellijohn.org.simplelinechart:linechart:0.0.2'</b><br>
 一.线性图表的实现<br>
 ![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/shitu.gif)
 
