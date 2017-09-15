@@ -1,11 +1,11 @@
 # LineChart
+<b>在项目的gradle文件中，增加compile 'wellijohn.org.simplelinechart:linechart:0.0.1'</b><br>
+一.线性图表的实现<br>
 ![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/shitu.gif)
 
 <b>使用example:</b><br>
 
-<b>1.在项目的gradle文件中，增加compile 'wellijohn.org.simplelinechart:linechart:0.0.1'</b><br>
-
-<b>2.初始化数据：</b><br>
+<b>1.初始化数据：</b><br>
 //y轴的点<br>
 private double[] mYdots = new double[]{0, 5, 10, 15, 20, 25, 30, 35, 40};<br>
 //x轴的点<br>
@@ -43,16 +43,48 @@ private void initTestData() {<br>
 
 }
 
-<b>3.设置数据，并显示</b><br>
+<b>2.设置数据，并显示</b><br>
 try {<br>
     　　mChartLine.setYdots(mYdots).setXdots(mXdots).setListDisDots(mListDisDots).reDraw();<br>
 } catch (YCoordinateException e) {<br>
     　　e.printStackTrace();<br>
 }<br>
 
-<b>4.现在只是写个设计思路，目前由于ui还没出来，可以慢慢定制，等ui好了，会暴露更多对ui定制的方法</b><br>
 
+二.百分比圆形图表的实现<br>
+实现效果图：<br>
+![image](https://github.com/WelliJohn/LineChart/blob/master/imgs/percent_chart.png)<br>
 
+<b>使用example:</b><br>
 
+<b>1.初始化数据：</b><br>
+//在布局中写的CirclePercentChart<br>
+<wellijohn.org.simplelinechart.circlepercentchart.CirclePercentChart<br>
+          　　android:id="@+id/circle_percent_chart"<br>
+        　　  android:layout_width="300dp"<br>
+         　　 android:layout_height="300dp"<br>
+        　　  android:layout_centerInParent="true" /><br>
+private CirclePercentChart mCirclePercentChart;<br>
 
+构造数据：
+  private void initTestData() {
+        　　mListDisArcs = new ArrayList<>();
+      　　  ArcVo tempDotVo = new ArcVo(Color.RED, .42f);
+       　　 mListDisArcs.add(tempDotVo);
+      　　  ArcVo tempDotVo1 = new ArcVo(Color.YELLOW, .38f);
+      　　  mListDisArcs.add(tempDotVo1);
+       　　 ArcVo tempDotVo2 = new ArcVo(Color.GREEN, .09f);
+       　　 mListDisArcs.add(tempDotVo2);
+      　　  ArcVo tempDotVo3 = new ArcVo(Color.BLACK, .05f);
+     　　   mListDisArcs.add(tempDotVo3);
+   　　     ArcVo tempDotVo4 = new ArcVo(Color.BLUE, .06f);
+       　　 mListDisArcs.add(tempDotVo4);
+    }
+
+<b>2.设置数据，并显示</b><br>
+ try {<br>
+        　　    mCirclePercentChart.setDisArcList(mListDisArcs).reDraw();<br>
+        } catch (PercentOverFlowException e) {<br>
+      　　      e.printStackTrace();<br>
+        }<br>
 
