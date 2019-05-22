@@ -5,12 +5,12 @@ pipeline {
       parallel {
         stage('clean') {
           steps {
-            sh 'gradlew clean'
+            sh 'gradle clean'
           }
         }
         stage('build') {
           steps {
-            sh 'gradlew build'
+            sh 'gradle build'
           }
         }
       }
