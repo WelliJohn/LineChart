@@ -5,7 +5,7 @@ pipeline {
       parallel {
         stage('clean') {
           steps {
-            sh 'gradle clean'
+            sh 'gradle -v'
           }
         }
         stage('build') {
