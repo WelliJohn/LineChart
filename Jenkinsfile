@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('clean') {
       steps {
-        sh './gradlew clean'
+        sh 'sudo ./gradlew clean'
       }
     }
   }
