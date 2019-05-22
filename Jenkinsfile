@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('error') {
+    stage('build') {
       steps {
-        sh 'gradlewAssemble'
+        sh 'gradle clean build'
       }
     }
   }
